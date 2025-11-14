@@ -1,5 +1,6 @@
 import React from 'react';
 import { fetchCurrentStreak, fetchStreakAwarded } from '../lib/stacks';
+import { on } from '../lib/events';
 
 export function StreakBadge({ context }: { context: { address: string | null; network: string; inst: number; threshold: number } }) {
   const [streak, setStreak] = React.useState<number | null>(null);
@@ -25,22 +26,28 @@ export function StreakBadge({ context }: { context: { address: string | null; ne
 
   React.useEffect(() => { load(); }, [context.address, context.inst]);
 
+  // Refresh on NFT refresh events (e.g., after confirmed claim)
+  React.useEffect(() => {
+    const off = on('nft:refresh', () => load());
+    return off;
+  }, [context.address, context.inst]);
+
   const currentStreak = streak ?? 0;
   const progressPercent = Math.min((currentStreak / context.threshold) * 100, 100);
 
   return (
-    <div className="bg-white/5 backdrop-blur-xl border border-white/10 rounded-3xl p-8 shadow-2xl shadow-black/40">
+    <div className="bg-white/5 backdrop-blur-xl border border-white/10 rounded-3xl p-8 shadow-lg shadow-black/20">
       <div className="grid grid-cols-2 gap-8">
         <div>
           <h3 className="text-2xl font-bold text-white mb-6 flex items-center gap-2">
             🔥 Your Streak
           </h3>
           {loading && <p className="text-gray-400">Loading streak data...</p>}
-          {error && <p className="text-red-500">⚠️ {error}</p>}
+          {error && <p className="text-red-500"> {error}</p>}
           {!loading && !error && (
             <>
               <div className="flex items-baseline gap-3 mb-6">
-                <span className="text-6xl font-black bg-gradient-to-r from-purple-400 to-pink-400 bg-clip-text text-transparent">
+                <span className="text-6xl font-black text-green-400">
                   {currentStreak}
                 </span>
                 <span className="text-2xl text-gray-500">/ {context.threshold}</span>
@@ -48,10 +55,10 @@ export function StreakBadge({ context }: { context: { address: string | null; ne
               <div className="mb-2">
                 <div className="h-3 bg-white/10 rounded-full overflow-hidden relative">
                   <div 
-                    className="h-full bg-gradient-to-r from-purple-600 to-pink-600 rounded-full transition-all duration-500 relative overflow-hidden"
+                    className="h-full bg-green-600 rounded-full transition-all duration-500 relative overflow-hidden"
                     style={{ width: `${progressPercent}%` }}
                   >
-                    <div className="absolute inset-0 bg-gradient-to-r from-transparent via-white/30 to-transparent animate-shimmer" />
+                    <div className="absolute inset-0 bg-white/20 animate-shimmer" />
                   </div>
                 </div>
               </div>

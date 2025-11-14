@@ -35,7 +35,7 @@ export default function App() {
   return (
     <div className="min-h-screen grid grid-cols-[280px_1fr] gap-6 p-6">
       {/* Sidebar */}
-      <aside className="bg-white/5 dark:bg-white/5 backdrop-blur-xl border border-white/10 rounded-3xl flex flex-col shadow-2xl shadow-black/40 animate-slide-in transition-all duration-300 overflow-hidden">
+      <aside className="bg-white/5 dark:bg-white/5 backdrop-blur-xl border border-white/10 rounded-3xl flex flex-col shadow-lg shadow-black/20 animate-slide-in transition-all duration-300 overflow-hidden">
         <div className="mb-10 text-center px-8 pt-8">
           <div className="text-5xl mb-3">🎓</div>
           <div>
@@ -48,7 +48,7 @@ export default function App() {
           <div 
             className={`relative flex items-center gap-4 px-5 py-4 rounded-2xl cursor-pointer transition-all duration-300 group ${
               activeView === 'dashboard' 
-                ? 'bg-gradient-to-r from-purple-600 via-purple-500 to-pink-600 text-white shadow-lg shadow-purple-500/50 scale-[1.02]' 
+                ? 'bg-green-700 text-white shadow-md shadow-green-500/20 scale-[1.02]' 
                 : 'text-gray-300 hover:bg-white/5 hover:text-white hover:scale-[1.01]'
             }`}
             onClick={() => setActiveView('dashboard')}
@@ -62,7 +62,7 @@ export default function App() {
           <div 
             className={`relative flex items-center gap-4 px-5 py-4 rounded-2xl cursor-pointer transition-all duration-300 group ${
               activeView === 'claim' 
-                ? 'bg-gradient-to-r from-purple-600 via-purple-500 to-pink-600 text-white shadow-lg shadow-purple-500/50 scale-[1.02]' 
+                ? 'bg-green-700 text-white shadow-md shadow-green-500/20 scale-[1.02]' 
                 : 'text-gray-300 hover:bg-white/5 hover:text-white hover:scale-[1.01]'
             }`}
             onClick={() => setActiveView('claim')}
@@ -76,7 +76,7 @@ export default function App() {
           <div 
             className={`relative flex items-center gap-4 px-5 py-4 rounded-2xl cursor-pointer transition-all duration-300 group ${
               activeView === 'create' 
-                ? 'bg-gradient-to-r from-purple-600 via-purple-500 to-pink-600 text-white shadow-lg shadow-purple-500/50 scale-[1.02]' 
+                ? 'bg-green-700 text-white shadow-md shadow-green-500/20 scale-[1.02]' 
                 : 'text-gray-300 hover:bg-white/5 hover:text-white hover:scale-[1.01]'
             }`}
             onClick={() => setActiveView('create')}
@@ -90,7 +90,7 @@ export default function App() {
           <div 
             className={`relative flex items-center gap-4 px-5 py-4 rounded-2xl cursor-pointer transition-all duration-300 group ${
               activeView === 'stats' 
-                ? 'bg-gradient-to-r from-purple-600 via-purple-500 to-pink-600 text-white shadow-lg shadow-purple-500/50 scale-[1.02]' 
+                ? 'bg-green-700 text-white shadow-md shadow-green-500/20 scale-[1.02]' 
                 : 'text-gray-300 hover:bg-white/5 hover:text-white hover:scale-[1.01]'
             }`}
             onClick={() => setActiveView('stats')}
@@ -110,7 +110,7 @@ export default function App() {
 
       {/* Main Content */}
       <main className="flex flex-col gap-6">
-        <div className="bg-white/5 backdrop-blur-xl border border-white/10 rounded-3xl p-8 shadow-2xl shadow-black/40 flex justify-between items-center">
+        <div className="bg-white/5 backdrop-blur-xl border border-white/10 rounded-3xl p-8 shadow-lg shadow-black/20 flex justify-between items-center">
           <div>
             <h1 className="text-4xl font-display font-bold bg-gradient-to-r from-white to-gray-400 bg-clip-text text-transparent mb-2 tracking-tight">
               {getGreeting()} {isConnected ? <IoSparkles className="inline text-yellow-400" /> : <FaHandPaper className="inline text-gray-400" />}
@@ -122,6 +122,19 @@ export default function App() {
             </p>
           </div>
           <div className="flex items-center gap-4">
+            {/* Tiny Institution selector (non-intrusive) */}
+            <div className="hidden md:flex items-center gap-2 px-3 py-2 bg-white/5 border border-white/10 rounded-xl">
+              <label htmlFor="inst" className="text-xs text-gray-400 uppercase tracking-wide">Inst</label>
+              <input
+                id="inst"
+                type="number"
+                min={1}
+                value={inst}
+                onChange={(e) => setInst(Math.max(1, Number(e.target.value)))}
+                className="w-20 px-2 py-1 bg-transparent text-white border border-white/10 rounded-lg focus:outline-none focus:ring-2 focus:ring-green-500/20 focus:border-green-600 text-sm"
+                title="Institution ID"
+              />
+            </div>
             <WalletConnectButton />
           </div>
         </div>
@@ -135,7 +148,7 @@ export default function App() {
                 <NftGallery context={context} />
               </>
             ) : (
-              <div className="bg-white/5 backdrop-blur-xl border border-white/10 rounded-3xl p-12 shadow-2xl shadow-black/40">
+              <div className="bg-white/5 backdrop-blur-xl border border-white/10 rounded-3xl p-12 shadow-lg shadow-black/20">
                 <div className="text-center">
                   <div className="text-6xl mb-6">🔐</div>
                   <h2 className="text-3xl font-display font-bold text-white mb-3 tracking-tight">Wallet Not Connected</h2>
@@ -154,7 +167,7 @@ export default function App() {
             {isConnected ? (
               <AttendanceClaimer context={context} />
             ) : (
-              <div className="bg-white/5 backdrop-blur-xl border border-white/10 rounded-3xl p-12 shadow-2xl shadow-black/40">
+              <div className="bg-white/5 backdrop-blur-xl border border-white/10 rounded-3xl p-12 shadow-lg shadow-black/20">
                 <div className="text-center">
                   <div className="text-6xl mb-6">🔐</div>
                   <h2 className="text-3xl font-display font-bold text-white mb-3 tracking-tight">Wallet Required</h2>
@@ -173,7 +186,7 @@ export default function App() {
             {isConnected ? (
               <SessionCreator context={context} />
             ) : (
-              <div className="bg-white/5 backdrop-blur-xl border border-white/10 rounded-3xl p-12 shadow-2xl shadow-black/40">
+              <div className="bg-white/5 backdrop-blur-xl border border-white/10 rounded-3xl p-12 shadow-lg shadow-black/20">
                 <div className="text-center">
                   <div className="text-6xl mb-6">🔐</div>
                   <div className="text-2xl font-bold text-white mb-3">Wallet Required</div>
@@ -188,7 +201,7 @@ export default function App() {
 
         {/* Stats View */}
         {activeView === 'stats' && (
-          <div className="bg-white/5 backdrop-blur-xl border border-white/10 rounded-3xl p-12 shadow-2xl shadow-black/40">
+          <div className="bg-white/5 backdrop-blur-xl border border-white/10 rounded-3xl p-12 shadow-lg shadow-black/20">
             <div>
               <h2 className="text-3xl font-display font-bold text-white mb-6 tracking-tight">Statistics & Analytics</h2>
             </div>

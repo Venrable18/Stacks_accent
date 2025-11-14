@@ -160,9 +160,76 @@ export async function fetchAttendanceOwner(tokenId: number) {
     senderAddress: cfg.contractAddress,
   });
   const json = cvToJSON(res);
-  // optional principal comes back as { type: 'some'|'none', value: 'SP...' }
-  if (json.type === 'some') {
-    return json.value as string;
+  // optional principal can be one of:
+  // { type: 'some', value: 'SP...' }
+  // { type: 'some', value: { type: 'principalStandard', value: 'SP...' } }
+  if (json?.type === 'some') {
+    const v = (json as any).value;
+    if (typeof v === 'string') return v.trim();
+    if (v && typeof v.value === 'string') return v.value.trim();
   }
   return null;
+}
+
+// Chain info helpers
+export async function fetchChainTipHeight(): Promise<number> {
+  const base = cfg.hiroApi.replace(/\/$/, '');
+  try {
+    // Prefer /extended/v1/info for stacks_tip_height
+    const res = await fetch(`${base}/extended/v1/info`);
+    if (res.ok) {
+      const j = await res.json();
+      if (typeof j?.stacks_tip_height === 'number') return j.stacks_tip_height;
+    }
+  } catch {}
+  // Fallback: try /extended/v1/block
+  try {
+    const res2 = await fetch(`${base}/extended/v1/block`);
+    if (res2.ok) {
+      const j2 = await res2.json();
+      if (typeof j2?.height === 'number') return j2.height;
+    }
+  } catch {}
+  // Fallback: try legacy /v2/info
+  try {
+    const res3 = await fetch(`${base}/v2/info`);
+    if (res3.ok) {
+      const j3 = await res3.json();
+      if (typeof j3?.stacks_tip_height === 'number') return j3.stacks_tip_height;
+    }
+  } catch {}
+  // As a last resort, return 0 to indicate failure
+  return 0;
+}
+
+// Session summary parser for get-session
+export interface SessionSummary {
+  exists: boolean;
+  active?: boolean;
+  expiresAt?: number;
+  seq?: number;
+  tutor?: string;
+  badgeUri?: string;
+}
+
+export async function getSessionSummary(inst: number, code: string): Promise<SessionSummary> {
+  const json = await fetchSession(inst, code);
+  if (!json || json.type === 'none') return { exists: false };
+  // json: { type: 'some', value: { type: 'tuple', value: { ... } } }
+  const tuple = (json as any).value;
+  if (!tuple || tuple.type !== 'tuple') return { exists: false };
+  const v = tuple.value as Record<string, any>;
+  const activeCv = v['active'];
+  const expiresCv = v['expires-at'];
+  const seqCv = v['seq'];
+  const tutorCv = v['tutor'];
+  const badgeCv = v['badge-uri'];
+  return {
+    exists: true,
+    active: Boolean(activeCv?.value),
+    expiresAt: typeof expiresCv?.value === 'number' ? Number(expiresCv.value) : undefined,
+    seq: typeof seqCv?.value === 'number' ? Number(seqCv.value) : undefined,
+    tutor: typeof tutorCv?.value === 'string' ? String(tutorCv.value) : undefined,
+    badgeUri: typeof badgeCv?.value === 'string' ? String(badgeCv.value) : undefined,
+  };
 }
