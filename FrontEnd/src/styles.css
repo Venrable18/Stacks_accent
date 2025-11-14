@@ -1,0 +1,254 @@
+@tailwind base;
+@tailwind components;
+@tailwind utilities;
+
+/* ============================================
+   THEME SYSTEM - Dark & Light Mode
+   ============================================ */
+
+:root[data-theme="dark"],
+:root {
+  --bg-darkest: #0f0f23;
+  --bg-dark: #1a1a2e;
+  --text-primary: #ffffff;
+  --text-secondary: #e5e7eb;
+  --text-muted: #9ca3af;
+  --glass-bg: rgba(255, 255, 255, 0.05);
+  --glass-border: rgba(255, 255, 255, 0.1);
+}
+
+:root[data-theme="light"] {
+  --bg-darkest: #f0f4f8;
+  --bg-dark: #ffffff;
+  --text-primary: #111827;
+  --text-secondary: #374151;
+  --text-muted: #6b7280;
+  --glass-bg: rgba(255, 255, 255, 0.8);
+  --glass-border: rgba(0, 0, 0, 0.1);
+}
+
+/* ============================================
+   BASE STYLES
+   ============================================ */
+
+body {
+  font-family: 'Inter', -apple-system, BlinkMacSystemFont, 'Segoe UI', system-ui, sans-serif;
+  -webkit-font-smoothing: antialiased;
+  -moz-osx-font-smoothing: grayscale;
+  overflow-x: hidden;
+  transition: background-color 0.3s ease, color 0.3s ease;
+  background: var(--bg-darkest);
+  color: var(--text-primary);
+  font-size: 16px;
+  line-height: 1.6;
+  letter-spacing: -0.011em;
+}
+
+/* Headings use Space Grotesk for that modern Web3 feel */
+h1, h2, h3, h4, h5, h6 {
+  font-family: 'Space Grotesk', 'Inter', sans-serif;
+  font-weight: 700;
+  line-height: 1.2;
+  letter-spacing: -0.02em;
+}
+
+h1 {
+  font-size: clamp(2rem, 4vw, 2.5rem);
+  font-weight: 800;
+}
+
+h2 {
+  font-size: clamp(1.5rem, 3vw, 2rem);
+  font-weight: 700;
+}
+
+h3 {
+  font-size: clamp(1.25rem, 2.5vw, 1.5rem);
+  font-weight: 600;
+}
+
+/* Buttons and UI Elements */
+button {
+  font-family: 'Inter', sans-serif;
+  font-weight: 600;
+  letter-spacing: 0.01em;
+}
+
+/* Light Mode Text Override */
+[data-theme="light"] .text-white {
+  color: #111827 !important;
+}
+
+[data-theme="light"] .text-gray-400 {
+  color: #4b5563 !important;
+}
+
+[data-theme="light"] .text-gray-300 {
+  color: #6b7280 !important;
+}
+
+/* Light Mode Glassmorphism */
+[data-theme="light"] .bg-white\/5 {
+  background-color: rgba(0, 0, 0, 0.03) !important;
+}
+
+[data-theme="light"] .border-white\/10 {
+  border-color: rgba(0, 0, 0, 0.08) !important;
+}
+
+/* Light Mode Shadows */
+[data-theme="light"] .shadow-black\/20 {
+  box-shadow: 0 10px 25px -5px rgba(0, 0, 0, 0.05) !important;
+}
+
+/* Light Mode Hover States */
+[data-theme="light"] .hover\:bg-white\/5:hover {
+  background-color: rgba(0, 0, 0, 0.05) !important;
+}
+
+[data-theme="light"] .hover\:text-white:hover {
+  color: #111827 !important;
+}
+
+/* Light Mode Toggle Button - Clean & Aesthetic */
+[data-theme="light"] button[aria-label="Toggle theme"] {
+  background: #ffffff !important;
+  border-color: rgba(0, 0, 0, 0.12) !important;
+  box-shadow: 0 1px 6px rgba(0, 0, 0, 0.05), inset 0 1px 1px rgba(255, 255, 255, 1) !important;
+}
+
+[data-theme="light"] button[aria-label="Toggle theme"]:hover {
+  background: #f9fafb !important;
+  border-color: rgba(22, 163, 74, 0.3) !important;
+  box-shadow: 0 2px 8px rgba(22, 163, 74, 0.12), inset 0 1px 1px rgba(255, 255, 255, 1) !important;
+}
+
+/* Light Mode Toggle - Better Track Colors */
+[data-theme="light"] button[aria-label="Toggle theme"] > div {
+  background: linear-gradient(135deg, #16a34a, #15803d) !important;
+  box-shadow: inset 0 2px 4px rgba(0, 0, 0, 0.1) !important;
+}
+
+/* Animated Background - Dark Mode */
+[data-theme="dark"] body::before {
+  content: '';
+  position: fixed;
+  top: 0;
+  left: 0;
+  width: 100%;
+  height: 100%;
+  background: 
+    radial-gradient(circle at 20% 50%, rgba(22, 163, 74, 0.1) 0%, transparent 50%),
+    radial-gradient(circle at 80% 80%, rgba(21, 128, 61, 0.1) 0%, transparent 50%),
+    radial-gradient(circle at 40% 20%, rgba(34, 197, 94, 0.1) 0%, transparent 50%);
+  animation: gradientShift 15s ease infinite;
+  background-size: 200% 200%;
+  pointer-events: none;
+  z-index: -1;
+}
+
+/* Animated Background - Light Mode */
+[data-theme="light"] body::before {
+  content: '';
+  position: fixed;
+  top: 0;
+  left: 0;
+  width: 100%;
+  height: 100%;
+  background: 
+    radial-gradient(circle at 20% 50%, rgba(22, 163, 74, 0.05) 0%, transparent 50%),
+    radial-gradient(circle at 80% 80%, rgba(21, 128, 61, 0.05) 0%, transparent 50%),
+    radial-gradient(circle at 40% 20%, rgba(34, 197, 94, 0.05) 0%, transparent 50%);
+  animation: gradientShift 15s ease infinite;
+  background-size: 200% 200%;
+  pointer-events: none;
+  z-index: -1;
+}
+
+[data-theme="light"] body {
+  color: #111827;
+}
+
+/* ============================================
+   ANIMATIONS
+   ============================================ */
+
+@keyframes gradientShift {
+  0%, 100% {
+    background-position: 0% 50%;
+  }
+  50% {
+    background-position: 100% 50%;
+  }
+}
+
+/* ============================================
+   CUSTOM SCROLLBAR
+   ============================================ */
+
+::-webkit-scrollbar {
+  width: 10px;
+}
+
+::-webkit-scrollbar-track {
+  background: rgba(255, 255, 255, 0.05);
+}
+
+::-webkit-scrollbar-thumb {
+  background: #16a34a;
+  border-radius: 9999px;
+}
+
+::-webkit-scrollbar-thumb:hover {
+  background: #15803d;
+}
+
+/* ============================================
+   UTILITY CLASSES
+   ============================================ */
+
+.line-clamp-2 {
+  display: -webkit-box;
+  -webkit-line-clamp: 2;
+  -webkit-box-orient: vertical;
+  overflow: hidden;
+}
+
+/* ============================================
+   Toastify Theme Overrides (Green Minimal)
+   ============================================ */
+.Toastify__toast--info {
+  background: rgba(59, 130, 246, 0.15);
+  backdrop-filter: blur(12px);
+  border: 1px solid rgba(59, 130, 246, 0.35);
+  color: #bfdbfe;
+}
+.Toastify__toast--success {
+  background: rgba(16, 185, 129, 0.15);
+  backdrop-filter: blur(12px);
+  border: 1px solid rgba(16, 185, 129, 0.4);
+  color: #d1fae5;
+}
+.Toastify__toast--error {
+  background: rgba(220, 38, 38, 0.15);
+  backdrop-filter: blur(12px);
+  border: 1px solid rgba(220, 38, 38, 0.4);
+  color: #fecaca;
+}
+.Toastify__toast--warning {
+  background: rgba(234, 179, 8, 0.15);
+  backdrop-filter: blur(12px);
+  border: 1px solid rgba(234, 179, 8, 0.4);
+  color: #fef3c7;
+}
+.Toastify__close-button {
+  color: #fff;
+  opacity: 0.6;
+}
+.Toastify__close-button:hover {
+  opacity: 1;
+}
+.Toastify__progress-bar--info { background: #3b82f6; }
+.Toastify__progress-bar--success { background: #16a34a; }
+.Toastify__progress-bar--error { background: #dc2626; }
+.Toastify__progress-bar--warning { background: #eab308; }
