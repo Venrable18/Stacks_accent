@@ -180,10 +180,31 @@ export function NftGallery({ context }: { context: { address: string | null; ins
         </div>
       </div>
 
-      {loading && (
-        <div className="flex flex-col items-center justify-center py-12">
-          <div className="w-12 h-12 border-4 border-green-500/30 border-t-green-600 rounded-full animate-spin mb-4"></div>
-          <p className="text-gray-400">Loading your collection...</p>
+      {loading && items.length === 0 && (
+        <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6">
+          {Array.from({ length: 6 }).map((_, idx) => (
+            <div key={`skeleton-${idx}`} className="bg-white/5 border border-white/10 rounded-2xl overflow-hidden animate-pulse">
+              <div className="aspect-square bg-white/10"></div>
+              <div className="p-5 space-y-3">
+                <div className="h-4 bg-white/10 rounded w-3/4"></div>
+                <div className="h-4 bg-white/10 rounded w-1/2"></div>
+                <div className="flex justify-between items-center mt-4">
+                  <div className="space-y-2">
+                    <div className="h-3 bg-white/10 rounded w-16"></div>
+                    <div className="h-3 bg-white/10 rounded w-20"></div>
+                  </div>
+                  <div className="h-8 w-16 bg-white/10 rounded-lg"></div>
+                </div>
+              </div>
+            </div>
+          ))}
+        </div>
+      )}
+
+      {loading && items.length > 0 && (
+        <div className="flex flex-col items-center justify-center py-8">
+          <div className="w-8 h-8 border-4 border-green-500/30 border-t-green-600 rounded-full animate-spin mb-3"></div>
+          <p className="text-sm text-gray-400">Loading more...</p>
         </div>
       )}
 
