@@ -42,7 +42,18 @@ export function StreakBadge({ context }: { context: { address: string | null; ne
           <h3 className="text-2xl font-bold text-white mb-6 flex items-center gap-2">
             🔥 Your Streak
           </h3>
-          {loading && <p className="text-gray-400">Loading streak data...</p>}
+          {loading && (
+            <div className="animate-pulse space-y-4">
+              <div className="flex items-baseline gap-3">
+                <div className="h-16 w-24 bg-white/10 rounded-xl"></div>
+                <div className="h-8 w-16 bg-white/10 rounded"></div>
+              </div>
+              <div className="space-y-2">
+                <div className="h-3 bg-white/10 rounded w-3/4"></div>
+                <div className="h-8 bg-white/10 rounded-full"></div>
+              </div>
+            </div>
+          )}
           {error && <p className="text-red-500"> {error}</p>}
           {!loading && !error && (
             <>
