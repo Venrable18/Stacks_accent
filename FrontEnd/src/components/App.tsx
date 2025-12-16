@@ -6,6 +6,7 @@ import { SessionCreator } from './SessionCreator';
 import { NftGallery } from './NftGallery';
 import { StreakBadge } from './StreakBadge';
 import { ThemeToggle } from './ThemeToggle';
+import { ErrorBoundary } from './ErrorBoundary';
 import { HiHome, HiCheckCircle, HiPlusCircle, HiChartBar } from 'react-icons/hi';
 import { IoSparkles } from 'react-icons/io5';
 import { FaHandPaper } from 'react-icons/fa';
@@ -144,8 +145,28 @@ export default function App() {
           <>
             {isConnected ? (
               <>
-                <StreakBadge context={context} />
-                <NftGallery context={context} />
+                <ErrorBoundary fallback={
+                  <div className="bg-white/5 backdrop-blur-xl border border-red-500/30 rounded-3xl p-8 shadow-lg">
+                    <div className="text-center">
+                      <div className="text-4xl mb-3">⚠️</div>
+                      <h3 className="text-xl font-bold text-white mb-2">Streak Badge Error</h3>
+                      <p className="text-sm text-gray-400">Unable to load streak data</p>
+                    </div>
+                  </div>
+                }>
+                  <StreakBadge context={context} />
+                </ErrorBoundary>
+                <ErrorBoundary fallback={
+                  <div className="bg-white/5 backdrop-blur-xl border border-red-500/30 rounded-3xl p-8 shadow-lg">
+                    <div className="text-center">
+                      <div className="text-4xl mb-3">⚠️</div>
+                      <h3 className="text-xl font-bold text-white mb-2">NFT Gallery Error</h3>
+                      <p className="text-sm text-gray-400">Unable to load your NFT collection</p>
+                    </div>
+                  </div>
+                }>
+                  <NftGallery context={context} />
+                </ErrorBoundary>
               </>
             ) : (
               <div className="bg-white/5 backdrop-blur-xl border border-white/10 rounded-3xl p-12 shadow-lg shadow-black/20">
@@ -165,7 +186,17 @@ export default function App() {
         {activeView === 'claim' && (
           <>
             {isConnected ? (
-              <AttendanceClaimer context={context} />
+              <ErrorBoundary fallback={
+                <div className="bg-white/5 backdrop-blur-xl border border-red-500/30 rounded-3xl p-8 shadow-lg">
+                  <div className="text-center">
+                    <div className="text-4xl mb-3">⚠️</div>
+                    <h3 className="text-xl font-bold text-white mb-2">Claim Error</h3>
+                    <p className="text-sm text-gray-400">Unable to load attendance claimer</p>
+                  </div>
+                </div>
+              }>
+                <AttendanceClaimer context={context} />
+              </ErrorBoundary>
             ) : (
               <div className="bg-white/5 backdrop-blur-xl border border-white/10 rounded-3xl p-12 shadow-lg shadow-black/20">
                 <div className="text-center">
@@ -184,7 +215,17 @@ export default function App() {
         {activeView === 'create' && (
           <>
             {isConnected ? (
-              <SessionCreator context={context} />
+              <ErrorBoundary fallback={
+                <div className="bg-white/5 backdrop-blur-xl border border-red-500/30 rounded-3xl p-8 shadow-lg">
+                  <div className="text-center">
+                    <div className="text-4xl mb-3">⚠️</div>
+                    <h3 className="text-xl font-bold text-white mb-2">Session Creator Error</h3>
+                    <p className="text-sm text-gray-400">Unable to load session creation form</p>
+                  </div>
+                </div>
+              }>
+                <SessionCreator context={context} />
+              </ErrorBoundary>
             ) : (
               <div className="bg-white/5 backdrop-blur-xl border border-white/10 rounded-3xl p-12 shadow-lg shadow-black/20">
                 <div className="text-center">
