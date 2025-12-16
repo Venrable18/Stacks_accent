@@ -75,6 +75,21 @@ export function AttendanceClaimer({ context }: { context: { address: string | nu
     }
   }
 
+  if (!context.address) {
+    return (
+      <div className="bg-white/5 backdrop-blur-xl border border-white/10 rounded-3xl p-8 shadow-lg shadow-black/20">
+        <h3 className="text-2xl font-bold text-white mb-6">✓ Claim Your Attendance</h3>
+        <div className="space-y-6 animate-pulse">
+          <div>
+            <div className="h-4 bg-white/10 rounded w-32 mb-2"></div>
+            <div className="h-12 bg-white/10 rounded-xl"></div>
+          </div>
+          <div className="h-14 bg-white/10 rounded-xl"></div>
+        </div>
+      </div>
+    );
+  }
+
   return (
     <div className="bg-white/5 backdrop-blur-xl border border-white/10 rounded-3xl p-8 shadow-lg shadow-black/20">
       <h3 className="text-2xl font-bold text-white mb-6">✓ Claim Your Attendance</h3>

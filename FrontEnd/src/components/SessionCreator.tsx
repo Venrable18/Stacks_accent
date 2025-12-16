@@ -89,6 +89,35 @@ export function SessionCreator({ context }: { context: { address: string | null;
     }
   }
 
+  if (!context.address) {
+    return (
+      <div className="bg-white/5 backdrop-blur-xl border border-white/10 rounded-3xl p-8 shadow-lg shadow-black/20">
+        <h3 className="text-2xl font-bold text-white mb-6">🎓 Create Class Session</h3>
+        <div className="space-y-6 animate-pulse">
+          <div className="grid grid-cols-1 md:grid-cols-2 gap-6">
+            <div>
+              <div className="h-4 bg-white/10 rounded w-32 mb-2"></div>
+              <div className="h-12 bg-white/10 rounded-xl"></div>
+            </div>
+            <div>
+              <div className="h-4 bg-white/10 rounded w-40 mb-2"></div>
+              <div className="h-12 bg-white/10 rounded-xl"></div>
+            </div>
+            <div className="md:col-span-2">
+              <div className="h-4 bg-white/10 rounded w-24 mb-2"></div>
+              <div className="h-12 bg-white/10 rounded-xl"></div>
+            </div>
+            <div>
+              <div className="h-4 bg-white/10 rounded w-36 mb-2"></div>
+              <div className="h-12 bg-white/10 rounded-xl"></div>
+            </div>
+          </div>
+          <div className="h-14 bg-white/10 rounded-xl"></div>
+        </div>
+      </div>
+    );
+  }
+
   return (
     <div className="bg-white/5 backdrop-blur-xl border border-white/10 rounded-3xl p-8 shadow-lg shadow-black/20">
       <h3 className="text-2xl font-bold text-white mb-6">🎓 Create Class Session</h3>
